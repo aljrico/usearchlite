@@ -1,4 +1,5 @@
-#pragma once
+#ifndef UNUM_USEARCH_INDEX_PLUGINS_HPP
+#define UNUM_USEARCH_INDEX_PLUGINS_HPP
 #define __STDC_WANT_IEC_60559_TYPES_EXT__
 #include <float.h>  // `_Float16`
 #include <stdlib.h> // `aligned_alloc`
@@ -59,23 +60,11 @@
 #endif
 #endif
 // No problem, if some of the functions are unused or undefined
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wall"
-#pragma GCC diagnostic ignored "-Wunused"
-#pragma GCC diagnostic ignored "-Wunused-function"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #if defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4101) // "Unused variables"
-#pragma warning(disable : 4068) // "Unknown pragmas", when MSVC tries to read GCC pragmas
 #endif                          // _MSC_VER
 #include <simsimd/simsimd.h>
 #ifdef _MSC_VER
-#pragma warning(pop)
 #endif // _MSC_VER
-#pragma GCC diagnostic pop
 #endif
 
 namespace unum {
@@ -1297,8 +1286,6 @@ struct casts_punned_t {
  *  > the transformation might be disabled or specified as part of an unsupported transformation ordering
  */
 #if defined(USEARCH_DEFINED_CLANG)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpass-failed"
 #endif
 
 /**
@@ -2016,7 +2003,6 @@ class metric_punned_t {
 
 /* Allow complaining about vectorization after this point. */
 #if defined(USEARCH_DEFINED_CLANG)
-#pragma clang diagnostic pop
 #endif
 
 /**
@@ -3031,3 +3017,5 @@ class flat_hash_multi_set_gt {
 
 } // namespace usearch
 } // namespace unum
+
+#endif // UNUM_USEARCH_INDEX_PLUGINS_HPP

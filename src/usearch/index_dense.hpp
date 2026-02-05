@@ -4,7 +4,8 @@
  *  @brief      Single-header Vector Search engine for equi-dimensional dense vectors.
  *  @date       July 26, 2023
  */
-#pragma once
+#ifndef UNUM_USEARCH_INDEX_DENSE_HPP
+#define UNUM_USEARCH_INDEX_DENSE_HPP
 #include <stdlib.h> // `aligned_alloc`
 
 #include <usearch/index.hpp>
@@ -2270,3 +2271,5 @@ static join_result_t join(                                    //
 
 } // namespace usearch
 } // namespace unum
+
+#endif // UNUM_USEARCH_INDEX_DENSE_HPP
