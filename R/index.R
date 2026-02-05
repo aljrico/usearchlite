@@ -110,6 +110,9 @@ index_add <- function(index, id, vector, meta = NULL) {
     stop(sprintf("vector length (%d) must match index dimension (%d)",
                  length(vector), index$dim))
   }
+  if (any(!is.finite(vector))) {
+    stop("vector must contain only finite values (no NA, NaN, Inf, or -Inf)")
+  }
 
   # Add to C++ index
   cpp_index_add(index$ptr, id, vector)
@@ -221,11 +224,17 @@ index_search <- function(index, query, k = 10L, filter = NULL, prefilter_k = 100
                    ncol(query), index$dim))
     }
     query <- matrix(as.double(query), nrow = nrow(query), ncol = ncol(query))
+    if (any(!is.finite(query))) {
+      stop("query must contain only finite values (no NA, NaN, Inf, or -Inf)")
+    }
   } else {
     query <- as.double(query)
     if (length(query) != index$dim) {
       stop(sprintf("query length (%d) must match index dimension (%d)",
                    length(query), index$dim))
+    }
+    if (any(!is.finite(query))) {
+      stop("query must contain only finite values (no NA, NaN, Inf, or -Inf)")
     }
   }
 
