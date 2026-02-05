@@ -1,12 +1,10 @@
 library(usearchlite)
 
-# Helper for Windows-safe cleanup
-safe_cleanup <- function(tmp, ...) {
-
-  objs <- c(...)
-  for (obj in objs) {
-    if (exists(obj, envir = parent.frame())) {
-      rm(list = obj, envir = parent.frame())
+# Helper for Windows-safe cleanup - removes objects only if they exist
+safe_on_exit <- function(tmp, env = parent.frame()) {
+  for (obj in c("idx", "idx2", "res")) {
+    if (exists(obj, envir = env, inherits = FALSE)) {
+      rm(list = obj, envir = env)
     }
   }
   gc()
@@ -14,9 +12,9 @@ safe_cleanup <- function(tmp, ...) {
 }
 
 test_that("index_new creates an index", {
- tmp <- tempfile()
+  tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
 
@@ -30,7 +28,7 @@ test_that("index_new creates an index", {
 test_that("index_add adds vectors and metadata", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
@@ -45,7 +43,7 @@ test_that("index_add adds vectors and metadata", {
 test_that("index_search finds nearest neighbors", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
@@ -63,7 +61,7 @@ test_that("index_search finds nearest neighbors", {
 test_that("index_search handles empty index", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   res <- index_search(idx, c(1, 0, 0), k = 5L)
@@ -76,7 +74,7 @@ test_that("index_search handles empty index", {
 test_that("index_search with filter", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
@@ -94,7 +92,7 @@ test_that("index_search with filter", {
 test_that("index persists to disk", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   # Create and populate index
  idx <- index_new(3L, tmp)
@@ -127,7 +125,7 @@ test_that("index persists to disk", {
 test_that("dimension mismatch is detected on add", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
 
@@ -140,7 +138,7 @@ test_that("dimension mismatch is detected on add", {
 test_that("dimension mismatch is detected on search", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))
@@ -152,7 +150,7 @@ test_that("dimension mismatch is detected on search", {
 test_that("dimension mismatch is detected on reload", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   # Create with dim 3
   idx <- index_new(3L, tmp)
@@ -167,7 +165,7 @@ test_that("dimension mismatch is detected on reload", {
 test_that("index_meta returns metadata", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(name = "first"))
@@ -184,7 +182,7 @@ test_that("index_meta returns metadata", {
 test_that("batch search works", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))
@@ -205,7 +203,7 @@ test_that("batch search works", {
 test_that("print method works", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))
@@ -217,7 +215,7 @@ test_that("print method works", {
 test_that("negative id is rejected", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
 
@@ -231,7 +229,7 @@ test_that("negative id is rejected", {
 test_that("invalid dim is rejected", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   expect_error(index_new(0L, tmp), "dim must be a single positive integer")
   expect_error(index_new(-1L, tmp), "dim must be a single positive integer")

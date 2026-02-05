@@ -1,9 +1,20 @@
 library(usearchlite)
 
+# Helper for Windows-safe cleanup - removes objects only if they exist
+safe_on_exit <- function(tmp, env = parent.frame()) {
+  for (obj in c("idx", "idx2", "res", "queries")) {
+    if (exists(obj, envir = env, inherits = FALSE)) {
+      rm(list = obj, envir = env)
+    }
+  }
+  gc()
+  unlink(tmp, recursive = TRUE, force = TRUE)
+}
+
 test_that("batch search on empty index returns NA matrices", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
 
@@ -27,7 +38,7 @@ test_that("batch search on empty index returns NA matrices", {
 test_that("batch search with partial results pads correctly", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))
@@ -49,7 +60,7 @@ test_that("batch search with partial results pads correctly", {
 test_that("single query returns vector not matrix", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))

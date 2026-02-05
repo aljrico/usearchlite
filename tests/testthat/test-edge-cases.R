@@ -1,9 +1,20 @@
 library(usearchlite)
 
+# Helper for Windows-safe cleanup - removes objects only if they exist
+safe_on_exit <- function(tmp, env = parent.frame()) {
+  for (obj in c("idx", "idx2", "res", "m")) {
+    if (exists(obj, envir = env, inherits = FALSE)) {
+      rm(list = obj, envir = env)
+    }
+  }
+  gc()
+  unlink(tmp, recursive = TRUE, force = TRUE)
+}
+
 test_that("k larger than number of vectors pads with NA", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))
@@ -25,7 +36,7 @@ test_that("k larger than number of vectors pads with NA", {
 test_that("non-finite values rejected on add", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
 
@@ -61,7 +72,7 @@ test_that("non-finite values rejected on add", {
 test_that("non-finite values rejected on search", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0))
@@ -91,7 +102,7 @@ test_that("non-finite values rejected on search", {
 test_that("prefilter_k smaller than k caps filtered results", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(cat = "a"))
@@ -113,7 +124,7 @@ test_that("prefilter_k smaller than k caps filtered results", {
 test_that("filter returning wrong type errors clearly", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(cat = "a"))
@@ -141,7 +152,7 @@ test_that("filter returning wrong type errors clearly", {
 test_that("metadata schema evolution works", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
 
@@ -176,7 +187,7 @@ test_that("metadata schema evolution works", {
 test_that("duplicate id is rejected", {
   tmp <- tempfile()
   dir.create(tmp)
-  on.exit({ rm(idx); gc(); unlink(tmp, recursive = TRUE, force = TRUE) }, add = TRUE)
+  on.exit(safe_on_exit(tmp), add = TRUE)
 
   idx <- index_new(3L, tmp)
   idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(name = "original"))
