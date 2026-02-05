@@ -1,0 +1,20 @@
+Package: usearchlite
+Title: Local Vector Search with USearch (Lite)
+Version: 0.1.0
+Authors@R:
+    person("Package", "Author", email = "author@example.com", role = c("aut", "cre"))
+Description: A lightweight local vector index for approximate nearest neighbor
+    (ANN) search using the vendored USearch library. Provides a simple interface
+    for adding vectors, searching for nearest neighbors, and persisting indexes
+    to disk. Metadata filtering is performed in R on the candidate set returned
+    by the C++ layer.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+SystemRequirements: C++17
+NeedsCompilation: yes
+LinkingTo: cpp11
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

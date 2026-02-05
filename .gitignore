@@ -1,0 +1,19 @@
+# R package build artifacts
+*.Rcheck/
+*.tar.gz
+*.o
+*.so
+*.dll
+src/*.o
+src/*.so
+src/*.dll
+src/symbols.rds
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+# IDE
+.vscode/
+*.swp
