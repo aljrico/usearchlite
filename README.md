@@ -4,7 +4,7 @@
 [![R-CMD-check](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-A lightweight local vector index for R. Store embeddings, search by similarity, filter by metadata—all without leaving your filesystem.
+A lightweight local vector index for R. Store embeddings, search by similarity, filter by metadata. All without leaving your filesystem.
 
 Built on [USearch](https://github.com/unum-cloud/usearch), one of the fastest approximate nearest neighbor libraries available.
 
@@ -47,7 +47,7 @@ results <- index_search(
 )
 ```
 
-Close R, come back later—your index is still there:
+Close R, come back later. Your index is still there:
 
 ```r
 idx <- index_new(dim = 384L, path = "my_index")
@@ -67,7 +67,7 @@ The API is intentionally minimal:
 | `index_search()` | Find nearest neighbors |
 | `index_meta()` | Retrieve all metadata |
 
-Filtering is handled in R rather than C++. This keeps the core simple while giving you full flexibility—use any R expression to filter your results.
+Filtering is handled in R rather than C++. This keeps the core simple while giving you full flexibility: use any R expression to filter your results.
 
 ## License
 
