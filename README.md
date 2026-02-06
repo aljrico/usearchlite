@@ -27,7 +27,7 @@ library(usearchlite)
 # Create an index (vectors stored locally in a directory)
 idx <- index_new(dim = 384L, path = "my_index")
 
-# Add vectors with metadata
+# Add vectors with metadata (each vector is a numeric vector of length 384)
 idx <- index_add(idx, id = 1L, vector = embedding1, meta = list(text = "First document", category = "A"))
 idx <- index_add(idx, id = 2L, vector = embedding2, meta = list(text = "Second document", category = "B"))
 idx <- index_add(idx, id = 3L, vector = embedding3, meta = list(text = "Third document", category = "A"))
@@ -38,6 +38,8 @@ results$ids
 #> [1] 3 1 2
 
 # Filter by metadata (filtering happens in R, on the candidate set)
+# prefilter_k controls how many candidates to fetch before filtering --
+# set it higher than k to ensure enough results survive the filter
 results <- index_search(
   idx,
   query = query_embedding,
