@@ -11,9 +11,12 @@ Built on [USearch](https://github.com/unum-cloud/usearch), one of the fastest ap
 ## Installation
 
 ``` r
-# Install from GitHub
-# install.packages("pak")
-pak::pak("aljrico/usearchlite")
+# Install from CRAN
+install.packages("usearchlite")
+
+# Or install the development version from GitHub
+# install.packages("devtools")
+devtools::install_github("aljrico/usearchlite")
 ```
 
 ## Usage
