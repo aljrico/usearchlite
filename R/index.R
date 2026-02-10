@@ -29,11 +29,10 @@ cpp_index_size <- function(ptr) {
 #' @return An object of class `usearchlite_index` containing the index state.
 #'
 #' @examples
-#' \dontrun{
 #' tmp <- tempfile()
 #' dir.create(tmp)
-#' idx <- index_new(3, tmp)
-#' }
+#' idx <- index_new(3L, tmp)
+#' unlink(tmp, recursive = TRUE)
 #'
 #' @export
 index_new <- function(dim, path) {
@@ -90,9 +89,11 @@ index_new <- function(dim, path) {
 #' @return The index object (invisibly), for chaining.
 #'
 #' @examples
-#' \dontrun{
+#' tmp <- tempfile()
+#' dir.create(tmp)
+#' idx <- index_new(3L, tmp)
 #' idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
-#' }
+#' unlink(tmp, recursive = TRUE)
 #'
 #' @export
 index_add <- function(index, id, vector, meta = NULL) {
@@ -195,11 +196,15 @@ index_add <- function(index, id, vector, meta = NULL) {
 #' }
 #'
 #' @examples
-#' \dontrun{
-#' res <- index_search(idx, c(1, 0, 0), k = 5)
-#' res <- index_search(idx, c(1, 0, 0), k = 5,
+#' tmp <- tempfile()
+#' dir.create(tmp)
+#' idx <- index_new(3L, tmp)
+#' idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
+#' idx <- index_add(idx, 2L, c(0, 1, 0), meta = list(category = "b"))
+#' res <- index_search(idx, c(1, 0, 0), k = 2L)
+#' res <- index_search(idx, c(1, 0, 0), k = 2L,
 #'                     filter = function(m) m$category == "a")
-#' }
+#' unlink(tmp, recursive = TRUE)
 #'
 #' @export
 index_search <- function(index, query, k = 10L, filter = NULL, prefilter_k = 100L) {
@@ -397,6 +402,14 @@ index_search <- function(index, query, k = 10L, filter = NULL, prefilter_k = 100
 #' @param index An `usearchlite_index` object.
 #'
 #' @return A data.frame with at least an 'id' column.
+#'
+#' @examples
+#' tmp <- tempfile()
+#' dir.create(tmp)
+#' idx <- index_new(3L, tmp)
+#' idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(name = "first"))
+#' m <- index_meta(idx)
+#' unlink(tmp, recursive = TRUE)
 #'
 #' @export
 index_meta <- function(index) {

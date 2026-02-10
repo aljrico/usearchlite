@@ -7,8 +7,8 @@ Description: A lightweight local vector index for approximate nearest neighbor
     (ANN) search using the vendored 'USearch' library
     Vardanian (2023) <doi:10.5281/zenodo.7949416>. Provides a simple interface
     for adding vectors, searching for nearest neighbors, and persisting indexes
-    to disk. Metadata filtering is performed in R on the candidate set returned
-    by the C++ layer.
+    to disk. Metadata filtering is performed in 'R' on the candidate set
+    returned by the 'C++' layer.
 License: MIT + file LICENSE
 URL: https://github.com/aljrico/usearchlite
 BugReports: https://github.com/aljrico/usearchlite/issues

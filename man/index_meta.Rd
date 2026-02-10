@@ -14,7 +14,10 @@ index_meta(index)
 A data.frame with at least an 'id' column.
 }
 \examples{
-\dontrun{
+tmp <- tempfile()
+dir.create(tmp)
+idx <- index_new(3L, tmp)
+idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(name = "first"))
 m <- index_meta(idx)
-}
+unlink(tmp, recursive = TRUE)
 }

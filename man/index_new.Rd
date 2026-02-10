@@ -16,9 +16,8 @@ index_new(dim, path)
 An object of class \code{usearchlite_index} containing the index state.
 }
 \examples{
-\dontrun{
 tmp <- tempfile()
 dir.create(tmp)
-idx <- index_new(3, tmp)
-}
+idx <- index_new(3L, tmp)
+unlink(tmp, recursive = TRUE)
 }

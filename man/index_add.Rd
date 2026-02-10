@@ -17,7 +17,9 @@ index_add(index, id, vector, meta = NULL)
 The index object (invisibly), for chaining.
 }
 \examples{
-\dontrun{
+tmp <- tempfile()
+dir.create(tmp)
+idx <- index_new(3L, tmp)
 idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
-}
+unlink(tmp, recursive = TRUE)
 }

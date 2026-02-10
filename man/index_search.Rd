@@ -27,9 +27,13 @@ A list with components:
 }
 }
 \examples{
-\dontrun{
-res <- index_search(idx, c(1, 0, 0), k = 5)
-res <- index_search(idx, c(1, 0, 0), k = 5,
+tmp <- tempfile()
+dir.create(tmp)
+idx <- index_new(3L, tmp)
+idx <- index_add(idx, 1L, c(1, 0, 0), meta = list(category = "a"))
+idx <- index_add(idx, 2L, c(0, 1, 0), meta = list(category = "b"))
+res <- index_search(idx, c(1, 0, 0), k = 2L)
+res <- index_search(idx, c(1, 0, 0), k = 2L,
                     filter = function(m) m$category == "a")
-}
+unlink(tmp, recursive = TRUE)
 }
