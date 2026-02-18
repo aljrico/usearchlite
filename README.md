@@ -1,4 +1,4 @@
-# usearchlite
+# usearchlite <img src="man/figures/logo.svg" align="right" height="139" alt="usearchlite logo" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml)
