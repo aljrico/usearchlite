@@ -1,6 +1,7 @@
 # usearchlite <img src="man/figures/logo.svg" align="right" height="139" alt="usearchlite logo" />
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/usearchlite)](https://cran.r-project.org/package=usearchlite)
 [![R-CMD-check](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
