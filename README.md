@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aljrico/usearchlite/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-A lightweight local vector index for R. Store embeddings, search by similarity, filter by metadata. All without leaving your filesystem.
+**Lightweight local vector search for R** — store embeddings, find nearest neighbors, filter by metadata. No server, no setup, just a directory on disk.
 
 Built on [USearch](https://github.com/unum-cloud/usearch), one of the fastest approximate nearest neighbor libraries available.
 
